@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mariáš Score Counter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="vertical-center">
+        <div class="container">
+            <h1>Mariáš Score Counter</h1>
+            
+            <!-- Player section -->
+            <div class="players">
+                <div class="player">
+                    <h2>Player 1</h2>
+                    <div class="score">0 Kč</div>
+                </div>
+                <div class="player">
+                    <h2>Player 2</h2>
+                    <div class="score">0 Kč</div>
+                </div>
+                <div class="player">
+                    <h2>Player 3</h2>
+                    <div class="score">0 Kč</div>
+                </div>
+            </div>
+
+            <div class="game-controls">
+                <div class="game-type">
+                    <h3>Typ hry</h3>
+                    <select id="gameType">
+                        <option value="hra">Hra</option>
+                        <option value="sedma">Hra + Sedma</option>
+                        <option value="sto">Hra + Sto</option>
+                        <option value="sedmaSto">Hra + Sedma + Sto</option>
+                        <option value="betl">Betl</option>
+                        <option value="durch">Durch</option>
+                    </select>
+                </div>
+
+                <div class="trumf-color">
+                    <h3>Barva Trumfů</h3>
+                    <select id="trumfColor">
+                        <option value="cerveny">Červené</option>
+                        <option value="zeleny">Zelené</option>
+                        <option value="kule">Kule</option>
+                        <option value="zaludy">Žaludy</option>
+                    </select>
+                </div>
+            
+                <div class="players-selection">
+                    <h3>Forhont</h3>
+                    <select id="forhont">
+                        <option value="0">Player 1</option>
+                        <option value="1">Player 2</option>
+                        <option value="2">Player 3</option>
+                    </select>
+                </div>
+            
+                <div class="flek-controls">
+                    <h3>Fleky</h3>
+                    <div class="flek-buttons">
+                        <button id="resetFlek">Bez fleku</button>
+                        <button id="flek">Flek</button>
+                        <button id="re">Re</button>
+                        <button id="tutti">Tutti</button>
+                        <button id="boty">Boty</button>
+                        <button id="kalhoty">Kalhoty</button>
+                    </div>
+                    <div class="current-flek">Současný flek: 1×</div>
+                </div>
+            
+                <div class="game-result">
+                    <h3>Výsledek</h3>
+                    <button id="win">Win</button>
+                    <button id="lose">Lose</button>
+                </div>
+            </div>
+
+                    </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
