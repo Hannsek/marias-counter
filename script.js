@@ -173,16 +173,20 @@ function updateScores(forhontWon) {
         players.forEach((player, index) => {
             if (index === forhontIndex) {
                 player.score += gameValue * 2;
+                animateScore(index);
             } else {
                 player.score -= gameValue;
+                animateScore(index);
             }
         });
     } else {
         players.forEach((player, index) => {
             if (index === forhontIndex) {
                 player.score -= gameValue * 2;
+                animateScore(index);
             } else {
                 player.score += gameValue;
+                animateScore(index);
             }
         });
     }
@@ -244,6 +248,7 @@ Object.entries(FLEK_MULTIPLIERS).forEach(([key, multiplier]) => {
     flekButtons[key].addEventListener('click', () => {
         currentFlekMultiplier = multiplier;
         currentFlekDisplay.textContent = `${currentFlekMultiplier}×`;
+        animateFlekMultiplier();
         // Remove active class from all flek buttons
         Object.values(flekButtons).forEach(button => {
             button.classList.remove('active');
@@ -377,4 +382,18 @@ function addGameToHistory(isWin) {
 document.querySelector('.game-button[data-game="hra"]').classList.add('active');
 document.querySelector('.trumf-button[data-trumf="cerveny"]').classList.add('active');
 document.querySelector('.forhont-button[data-player="0"]').classList.add('active');
+
+// Add this function to handle score animations
+function animateScore(index) {
+    const scoreElement = document.querySelectorAll('.score')[index];
+    scoreElement.classList.add('animate');
+    setTimeout(() => scoreElement.classList.remove('animate'), 300);
+}
+
+// Add this function to handle flek multiplier animation
+function animateFlekMultiplier() {
+    const flekElement = document.querySelector('.current-flek');
+    flekElement.classList.add('animate');
+    setTimeout(() => flekElement.classList.remove('animate'), 300);
+}
 
