@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mariáš Score Counter</title>
+    <title>Mariášnické počítadlo</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="vertical-center">
         <div class="container">
-            <h1>Mariáš Score Counter</h1>
+            <h1>Mariášnické počítadlo</h1>
             
             <!-- Player section -->
             <div class="players">
@@ -70,7 +70,8 @@
                         <button class="flek-button" id="boty">Boty</button>
                         <button class="flek-button" id="kalhoty">Kalhoty</button>
                     </div>
-                    <h4>Současný flek</h4>
+                    
+                    <h3>Současný flek</h3>
                     <div class="button-group">
                         <div class="current-flek">1×</div>
                     </div>
@@ -78,15 +79,22 @@
             
                 <div class="game-result">
                     <h3>Výsledek</h3>
-                    <button id="win">Win</button>
-                    <button id="lose">Lose</button>
+                    <div class="result-buttons">
+                        <button id="win">Výhra</button>
+                        <button id="lose">Prohra</button>
+                    </div>
                 </div>
             </div>
 
             <div class="reset-controls">
-                <h3>Reset</h3>
-                <button id="resetScores" class="reset-button">Vynulovat skóre</button>
-                <button id="resetStorage" class="reset-storage-button">Reset Local Storage</button>
+                <button id="resetScores" class="reset-button">
+                    <span class="icon">↺</span>
+                    Vynulovat skóre
+                </button>
+                <button id="resetStorage" class="reset-storage-button">
+                    <span class="icon">🗑</span>
+                    Reset Local Storage
+                </button>
             </div>
 
             <div class="game-history">
