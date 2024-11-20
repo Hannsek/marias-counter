@@ -40,6 +40,8 @@ const flekButtons = {
     kalhoty: document.getElementById('kalhoty')
 };
 const currentFlekDisplay = document.querySelector('.current-flek');
+const playerNames = document.querySelectorAll('.player-name');
+
 
 
 // Calculate game value
@@ -110,8 +112,6 @@ function updateFlekButtons() {
     });
 }
 
-
-// Add these event listeners
 flekButtons.reset.addEventListener('click', () => {
     currentFlekMultiplier = 1;
     currentFlekDisplay.textContent = `Současný flek: ${currentFlekMultiplier}×`;
@@ -138,3 +138,42 @@ function calculateGameValue() {
     
     return value * currentFlekMultiplier;  // Apply flek multiplier
 }
+
+function savePlayerNames() {
+    const names = Array.from(playerNames).map(nameElement => nameElement.textContent);
+    localStorage.setItem('playerNames', JSON.stringify(names));
+    
+    // Update forhont select options
+    const forhontOptions = Array.from(forhontSelect.options);
+    forhontOptions.forEach((option, index) => {
+        option.textContent = names[index];
+    });
+}
+
+function loadPlayerNames() {
+    const savedNames = localStorage.getItem('playerNames');
+    if (savedNames) {
+        const names = JSON.parse(savedNames);
+        playerNames.forEach((nameElement, index) => {
+            nameElement.textContent = names[index];
+        });
+        
+        // Update forhont select options
+        const forhontOptions = Array.from(forhontSelect.options);
+        forhontOptions.forEach((option, index) => {
+            option.textContent = names[index];
+        });
+    }
+}
+
+playerNames.forEach(nameElement => {
+    nameElement.addEventListener('blur', savePlayerNames);
+    nameElement.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            nameElement.blur();
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', loadPlayerNames);

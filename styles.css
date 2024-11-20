@@ -141,3 +141,19 @@ button:hover {
     margin-top: 10px;
     font-weight: bold;
 }
+
+.player-name {
+    padding: 5px;
+    border-radius: 4px;
+    min-width: 100px;
+    cursor: text;
+}
+
+.player-name:hover {
+    background-color: #eee;
+}
+
+.player-name:focus {
+    background-color: #fff;
+    outline: 2px solid #2196F3;
+}
