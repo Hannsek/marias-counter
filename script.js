@@ -133,7 +133,25 @@ function calculateGameValue() {
     return value * currentFlekMultiplier;
 }
 
-// Update scores
+// Define a function to reset buttons to default
+function resetButtonsToDefault() {
+    // Reset game type to 'hra'
+    const defaultGameButton = document.querySelector('.game-button[data-game="hra"]');
+    setActiveButton(gameButtons, defaultGameButton);
+    currentGame = 'hra';
+
+    // Move forhont to next player
+    const nextForhontIndex = (parseInt(currentForhont) + 1) % 3;  // Cycle through 0,1,2
+    const nextForhontButton = document.querySelector(`.forhont-button[data-player="${nextForhontIndex}"]`);
+    setActiveButton(forhontButtons, nextForhontButton);
+    currentForhont = nextForhontIndex.toString();
+
+    // Reset flek multiplier to 1
+    currentFlekMultiplier = 1;
+    currentFlekDisplay.textContent = `Současný flek: ${currentFlekMultiplier}×`;
+    updateFlekButtons();
+}
+// Modify the updateScores function to reset buttons
 function updateScores(forhontWon) {
     const gameValue = calculateGameValue();
     const forhontIndex = parseInt(currentForhont);
@@ -159,6 +177,9 @@ function updateScores(forhontWon) {
     }
     
     updateDisplay();
+    
+    // Reset buttons to default after updating scores
+    resetButtonsToDefault();
 }
 
 // Update the display
@@ -253,8 +274,8 @@ function addGameToHistory(isWin) {
     
     historyTableBody.insertBefore(row, historyTableBody.firstChild);
 }
-
 // Set initial active buttons
 document.querySelector('.game-button[data-game="hra"]').classList.add('active');
 document.querySelector('.trumf-button[data-trumf="cerveny"]').classList.add('active');
 document.querySelector('.forhont-button[data-player="0"]').classList.add('active');
+
