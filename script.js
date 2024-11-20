@@ -20,9 +20,9 @@ const FLEK_MULTIPLIERS = {
 
 // State management
 let players = [
-    { name: "Player 1", score: 0 },
-    { name: "Player 2", score: 0 },
-    { name: "Player 3", score: 0 }
+    { name: "Hráč 1", score: 0 },
+    { name: "Hráč 2", score: 0 },
+    { name: "Hráč 3", score: 0 }
 ];
 
 // Document Object Model (DOM) Elements
@@ -83,7 +83,7 @@ resetStorageButton.addEventListener('click', () => {
     
     // Reset player names to defaults
     playerNames.forEach((nameElement, index) => {
-        nameElement.textContent = `Player ${index + 1}`;
+        nameElement.textContent = `Hráč ${index + 1}`;
     });
     
     // Update everything
