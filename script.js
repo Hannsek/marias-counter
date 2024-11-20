@@ -54,7 +54,7 @@ function resetScores() {
     currentFlekMultiplier = 1;
     // Update displays
     updateDisplay();
-    currentFlekDisplay.textContent = `Současný flek: ${currentFlekMultiplier}×`;
+    currentFlekDisplay.textContent = `${currentFlekMultiplier}×`;
     updateFlekButtons();
     // Reset button state
     resetButton.textContent = 'Vynulovat skóre';
@@ -148,7 +148,7 @@ function resetButtonsToDefault() {
 
     // Reset flek multiplier to 1
     currentFlekMultiplier = 1;
-    currentFlekDisplay.textContent = `Současný flek: ${currentFlekMultiplier}×`;
+    currentFlekDisplay.textContent = `${currentFlekMultiplier}×`;
     updateFlekButtons();
 
     // Reset flek button highlighting
@@ -210,7 +210,7 @@ function updateFlekButtons() {
 
 flekButtons.reset.addEventListener('click', () => {
     currentFlekMultiplier = 1;
-    currentFlekDisplay.textContent = `Současný flek: ${currentFlekMultiplier}×`;
+    currentFlekDisplay.textContent = `${currentFlekMultiplier}×`;
     // Remove active class from all flek buttons
     Object.values(flekButtons).forEach(button => {
         button.classList.remove('active');
@@ -223,7 +223,7 @@ flekButtons.reset.addEventListener('click', () => {
 Object.entries(FLEK_MULTIPLIERS).forEach(([key, multiplier]) => {
     flekButtons[key].addEventListener('click', () => {
         currentFlekMultiplier = multiplier;
-        currentFlekDisplay.textContent = `Současný flek: ${currentFlekMultiplier}×`;
+        currentFlekDisplay.textContent = `${currentFlekMultiplier}×`;
         // Remove active class from all flek buttons
         Object.values(flekButtons).forEach(button => {
             button.classList.remove('active');
