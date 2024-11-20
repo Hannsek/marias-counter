@@ -194,6 +194,21 @@ function updateDisplay() {
     scoreElements.forEach((element, index) => {
         element.textContent = `${players[index].score} Kč`;
     });
+
+    // Create or update sum row in history table
+    let sumRow = document.getElementById('historySum');
+    if (!sumRow) {
+        sumRow = document.createElement('tr');
+        sumRow.id = 'historySum';
+        historyTableBody.appendChild(sumRow);
+    }
+
+    sumRow.innerHTML = `
+        <td colspan="6" style="text-align: right; font-weight: bold;">Součet:</td>
+        <td class="${players[0].score > 0 ? 'win' : 'lose'}" style="font-weight: bold;">${players[0].score > 0 ? '+' : ''}${players[0].score} Kč</td>
+        <td class="${players[1].score > 0 ? 'win' : 'lose'}" style="font-weight: bold;">${players[1].score > 0 ? '+' : ''}${players[1].score} Kč</td>
+        <td class="${players[2].score > 0 ? 'win' : 'lose'}" style="font-weight: bold;">${players[2].score > 0 ? '+' : ''}${players[2].score} Kč</td>
+    `;
 }
 
 // Event listeners
@@ -234,17 +249,33 @@ Object.entries(FLEK_MULTIPLIERS).forEach(([key, multiplier]) => {
     });
 });
 
+// Add this function to update table headers when player names change
+function updateTableHeaders() {
+    const headers = document.querySelectorAll('.game-history th');
+    const playerNames = document.querySelectorAll('.player-name');
+    
+    // Update last three headers with player names
+    headers[6].textContent = playerNames[0].textContent;
+    headers[7].textContent = playerNames[1].textContent;
+    headers[8].textContent = playerNames[2].textContent;
+}
+
+// Modify savePlayerNames function
 function savePlayerNames() {
     const names = Array.from(playerNames).map(nameElement => nameElement.textContent);
     localStorage.setItem('playerNames', JSON.stringify(names));
     
-    // Update forhont select options
+    // Update forhont buttons
     const forhontOptions = Array.from(forhontButtons);
     forhontOptions.forEach((option, index) => {
         option.textContent = names[index];
     });
+
+    // Update table headers
+    updateTableHeaders();
 }
 
+// Add to loadPlayerNames function
 function loadPlayerNames() {
     const savedNames = localStorage.getItem('playerNames');
     if (savedNames) {
@@ -253,16 +284,45 @@ function loadPlayerNames() {
             nameElement.textContent = names[index];
         });
         
-        // Update forhont select options
+        // Update forhont buttons
         const forhontOptions = Array.from(forhontButtons);
         forhontOptions.forEach((option, index) => {
             option.textContent = names[index];
         });
+
+        // Update table headers
+        updateTableHeaders();
     }
 }
 
+// Add this function to handle name length limits
+function limitNameLength(element, maxLength = 8) {
+    if (element.textContent.length > maxLength) {
+        element.textContent = element.textContent.slice(0, maxLength);
+        // Move cursor to end
+        const range = document.createRange();
+        const selection = window.getSelection();
+        range.selectNodeContents(element);
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+}
+
+// Update the event listeners for player names
 playerNames.forEach(nameElement => {
-    nameElement.addEventListener('blur', savePlayerNames);
+    // Add input event to check length while typing
+    nameElement.addEventListener('input', () => {
+        limitNameLength(nameElement);
+    });
+
+    // Keep existing blur event for saving
+    nameElement.addEventListener('blur', () => {
+        limitNameLength(nameElement);  // Ensure limit on blur
+        savePlayerNames();
+    });
+
+    // Keep existing enter key handler
     nameElement.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -279,6 +339,16 @@ function addGameToHistory(isWin) {
     const trumfButton = document.querySelector(`.trumf-button[data-trumf="${currentTrumf}"]`);
     const forhontButton = document.querySelector(`.forhont-button[data-player="${currentForhont}"]`);
     const gameValue = calculateGameValue();
+    const forhontIndex = parseInt(currentForhont);
+
+    // Calculate value changes for each player
+    const playerChanges = players.map((_, index) => {
+        if (isWin) {
+            return index === forhontIndex ? gameValue * 2 : -gameValue;
+        } else {
+            return index === forhontIndex ? -gameValue * 2 : gameValue;
+        }
+    });
     
     const row = document.createElement('tr');
     row.innerHTML = `
@@ -288,9 +358,15 @@ function addGameToHistory(isWin) {
         <td>${currentFlekMultiplier}×</td>
         <td class="${isWin ? 'win' : 'lose'}">${isWin ? 'Výhra' : 'Prohra'}</td>
         <td>${gameValue} Kč</td>
+        <td class="${playerChanges[0] > 0 ? 'win' : 'lose'}">${playerChanges[0] > 0 ? '+' : ''}${playerChanges[0]}</td>
+        <td class="${playerChanges[1] > 0 ? 'win' : 'lose'}">${playerChanges[1] > 0 ? '+' : ''}${playerChanges[1]}</td>
+        <td class="${playerChanges[2] > 0 ? 'win' : 'lose'}">${playerChanges[2] > 0 ? '+' : ''}${playerChanges[2]}</td>
     `;
     
     historyTableBody.insertBefore(row, historyTableBody.firstChild);
+    
+    // Use updateDisplay instead of updateHistorySums
+    updateDisplay();
 }
 // Set initial active buttons
 document.querySelector('.game-button[data-game="hra"]').classList.add('active');
