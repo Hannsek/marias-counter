@@ -187,9 +187,12 @@ button:hover {
 }
 
 .reset-controls {
-    margin-top: 15px;
-    padding: 10px 0;
+    margin-top: 20px;
+    padding: 20px 0;
     border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;  /* This spreads the buttons apart */
+    align-items: center;
 }
 
 .reset-button {
@@ -197,9 +200,9 @@ button:hover {
     color: white;
 }
 
-/* Optional: Add confirmation styling */
-.reset-button.confirm {
-    background-color: #f44336;  /* Red color when confirming */
+.reset-storage-button {
+    background-color: #666;  /* Dark gray */
+    color: white;
 }
 
 .game-history {

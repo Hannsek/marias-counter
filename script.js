@@ -43,43 +43,52 @@ const currentFlekDisplay = document.querySelector('.current-flek');
 const playerNames = document.querySelectorAll('.player-name');
 const resetButton = document.getElementById('resetScores');
 const historyTableBody = document.getElementById('historyTableBody');
+const resetStorageButton = document.getElementById('resetStorage');
 
-// Add reset functionality with confirmation
-let resetClickTimeout;
-
+// Simplify resetScores function
 function resetScores() {
     // Reset all player scores
     players.forEach(player => player.score = 0);
-    // Reset flek multiplier
+
+    // Reset game type to 'hra'
+    const defaultGameButton = document.querySelector('.game-button[data-game="hra"]');
+    setActiveButton(gameButtons, defaultGameButton);
+    currentGame = 'hra';
+
+    // Reset forhont to Player 1 (index 0)
+    const firstForhontButton = document.querySelector('.forhont-button[data-player="0"]');
+    setActiveButton(forhontButtons, firstForhontButton);
+    currentForhont = '0';
+
+    // Reset flek multiplier to 1
     currentFlekMultiplier = 1;
-    // Update displays
-    updateDisplay();
     currentFlekDisplay.textContent = `${currentFlekMultiplier}×`;
     updateFlekButtons();
-    // Reset button state
-    resetButton.textContent = 'Vynulovat skóre';
-    resetButton.classList.remove('confirm');
+    
+    // Update displays
+    updateDisplay();
     
     // Clear history table
     historyTableBody.innerHTML = '';
 }
 
+// Simplify reset button click handler
 resetButton.addEventListener('click', () => {
-    if (resetButton.classList.contains('confirm')) {
-        // Second click - perform reset
-        resetScores();
-        clearTimeout(resetClickTimeout);
-    } else {
-        // First click - ask for confirmation
-        resetButton.textContent = 'Opravdu vynulovat?';
-        resetButton.classList.add('confirm');
-        
-        // Reset button state after 3 seconds if not confirmed
-        resetClickTimeout = setTimeout(() => {
-            resetButton.textContent = 'Vynulovat skóre';
-            resetButton.classList.remove('confirm');
-        }, 3000);
-    }
+    resetScores();
+});
+
+// Simplify reset storage button click handler
+resetStorageButton.addEventListener('click', () => {
+    localStorage.clear();
+    
+    // Reset player names to defaults
+    playerNames.forEach((nameElement, index) => {
+        nameElement.textContent = `Player ${index + 1}`;
+    });
+    
+    // Update everything
+    savePlayerNames();
+    resetScores();
 });
 
 // Track current selections
@@ -134,28 +143,24 @@ function calculateGameValue() {
 }
 
 // Define a function to reset buttons to default
-function resetButtonsToDefault() {
+function resetButtonsToDefault(moveForhont = true) {
     // Reset game type to 'hra'
     const defaultGameButton = document.querySelector('.game-button[data-game="hra"]');
     setActiveButton(gameButtons, defaultGameButton);
     currentGame = 'hra';
 
-    // Move forhont to next player
-    const nextForhontIndex = (parseInt(currentForhont) + 1) % 3;  // Cycle through 0,1,2
-    const nextForhontButton = document.querySelector(`.forhont-button[data-player="${nextForhontIndex}"]`);
-    setActiveButton(forhontButtons, nextForhontButton);
-    currentForhont = nextForhontIndex.toString();
+    if (moveForhont) {
+        // Move forhont to next player only if moveForhont is true
+        const nextForhontIndex = (parseInt(currentForhont) + 1) % 3;
+        const nextForhontButton = document.querySelector(`.forhont-button[data-player="${nextForhontIndex}"]`);
+        setActiveButton(forhontButtons, nextForhontButton);
+        currentForhont = nextForhontIndex.toString();
+    }
 
     // Reset flek multiplier to 1
     currentFlekMultiplier = 1;
     currentFlekDisplay.textContent = `${currentFlekMultiplier}×`;
     updateFlekButtons();
-
-    // Reset flek button highlighting
-    Object.values(flekButtons).forEach(button => {
-        button.classList.remove('active');
-    });
-    flekButtons.reset.classList.add('active');
 }
 // Modify the updateScores function to reset buttons
 function updateScores(forhontWon) {
