@@ -26,9 +26,9 @@ let players = [
 ];
 
 // Document Object Model (DOM) Elements
-const gameTypeSelect = document.getElementById('gameType');
-const trumfColorSelect = document.getElementById('trumfColor');
-const forhontSelect = document.getElementById('forhont');
+const gameButtons = document.querySelectorAll('.game-button');
+const trumfButtons = document.querySelectorAll('.trumf-button');
+const forhontButtons = document.querySelectorAll('.forhont-button');
 const winButton = document.getElementById('win');
 const loseButton = document.getElementById('lose');
 const flekButtons = {
@@ -82,43 +82,78 @@ resetButton.addEventListener('click', () => {
     }
 });
 
+// Track current selections
+let currentGame = 'hra';
+let currentTrumf = 'cerveny';
+let currentForhont = '0';
+
+// Helper function to handle button groups
+function setActiveButton(buttons, activeButton) {
+    buttons.forEach(button => button.classList.remove('active'));
+    activeButton.classList.add('active');
+}
+
+// Add event listeners for game type
+gameButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        setActiveButton(gameButtons, button);
+        currentGame = button.dataset.game;
+        
+        // Show/hide trumf buttons for Betl/Durch
+        const trumfSection = document.querySelector('.trumf-color');
+        trumfSection.style.display = 
+            ['betl', 'durch'].includes(currentGame) ? 'none' : 'block';
+    });
+});
+
+// Add event listeners for trumf
+trumfButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        setActiveButton(trumfButtons, button);
+        currentTrumf = button.dataset.trumf;
+    });
+});
+
+// Add event listeners for forhont
+forhontButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        setActiveButton(forhontButtons, button);
+        currentForhont = button.dataset.player;
+    });
+});
+
 // Calculate game value
 function calculateGameValue() {
-    const gameType = gameTypeSelect.value;
-    const trumfColor = trumfColorSelect.value;
-    let value = GAME_VALUES[gameType] * BASE_RATE;
+    let value = GAME_VALUES[currentGame] * BASE_RATE;
     
-    // Double the value for červené
-    if (trumfColor === 'cerveny') {
-    value *= 2;
+    if (currentTrumf === 'cerveny') {
+        value *= 2;
     }
-    return value;
+    
+    return value * currentFlekMultiplier;
 }
 
 // Update scores
 function updateScores(forhontWon) {
     const gameValue = calculateGameValue();
-    const forhontIndex = parseInt(forhontSelect.value);
+    const forhontIndex = parseInt(currentForhont);
     
-    // Add game to history before updating scores
     addGameToHistory(forhontWon);
     
     if (forhontWon) {
-        // Forhont wins - others pay
         players.forEach((player, index) => {
             if (index === forhontIndex) {
-                player.score += gameValue * 2; // Gets paid by both players
+                player.score += gameValue * 2;
             } else {
-                player.score -= gameValue; // Pays the winner
+                player.score -= gameValue;
             }
         });
     } else {
-        // Forhont loses - pays others
         players.forEach((player, index) => {
             if (index === forhontIndex) {
-                player.score -= gameValue * 2; // Pays both players
+                player.score -= gameValue * 2;
             } else {
-                player.score += gameValue; // Gets paid by loser
+                player.score += gameValue;
             }
         });
     }
@@ -137,13 +172,6 @@ function updateDisplay() {
 // Event listeners
 winButton.addEventListener('click', () => updateScores(true));
 loseButton.addEventListener('click', () => updateScores(false));
-
-// Hide trumf color selection for Betl and Durch
-gameTypeSelect.addEventListener('change', () => {
-    const gameType = gameTypeSelect.value;
-    const trumfColorDiv = document.querySelector('.trumf-color');
-    trumfColorDiv.style.display = ['betl', 'durch'].includes(gameType) ? 'none' : 'block';
-});
 
 // Fleky 
 function updateFlekButtons() {
@@ -167,25 +195,12 @@ Object.entries(FLEK_MULTIPLIERS).forEach(([key, multiplier]) => {
     });
 });
 
-// Modify calculateGameValue function
-function calculateGameValue() {
-    const gameType = gameTypeSelect.value;
-    const trumfColor = trumfColorSelect.value;
-    let value = GAME_VALUES[gameType] * BASE_RATE;
-    
-    if (trumfColor === 'cerveny') {
-        value *= 2;
-    }
-    
-    return value * currentFlekMultiplier;  // Apply flek multiplier
-}
-
 function savePlayerNames() {
     const names = Array.from(playerNames).map(nameElement => nameElement.textContent);
     localStorage.setItem('playerNames', JSON.stringify(names));
     
     // Update forhont select options
-    const forhontOptions = Array.from(forhontSelect.options);
+    const forhontOptions = Array.from(forhontButtons);
     forhontOptions.forEach((option, index) => {
         option.textContent = names[index];
     });
@@ -200,7 +215,7 @@ function loadPlayerNames() {
         });
         
         // Update forhont select options
-        const forhontOptions = Array.from(forhontSelect.options);
+        const forhontOptions = Array.from(forhontButtons);
         forhontOptions.forEach((option, index) => {
             option.textContent = names[index];
         });
@@ -221,21 +236,25 @@ document.addEventListener('DOMContentLoaded', loadPlayerNames);
 
 // Add this function to record games
 function addGameToHistory(isWin) {
-    const gameType = gameTypeSelect.value;
-    const trumfColor = trumfColorSelect.value;
-    const forhontName = forhontSelect.options[forhontSelect.selectedIndex].text;
+    const gameButton = document.querySelector(`.game-button[data-game="${currentGame}"]`);
+    const trumfButton = document.querySelector(`.trumf-button[data-trumf="${currentTrumf}"]`);
+    const forhontButton = document.querySelector(`.forhont-button[data-player="${currentForhont}"]`);
     const gameValue = calculateGameValue();
     
     const row = document.createElement('tr');
     row.innerHTML = `
-        <td>${gameTypeSelect.options[gameTypeSelect.selectedIndex].text}</td>
-        <td>${['betl', 'durch'].includes(gameType) ? '-' : trumfColorSelect.options[trumfColorSelect.selectedIndex].text}</td>
-        <td>${forhontName}</td>
+        <td>${gameButton.textContent}</td>
+        <td>${['betl', 'durch'].includes(currentGame) ? '-' : trumfButton.textContent}</td>
+        <td>${forhontButton.textContent}</td>
         <td>${currentFlekMultiplier}×</td>
         <td class="${isWin ? 'win' : 'lose'}">${isWin ? 'Výhra' : 'Prohra'}</td>
         <td>${gameValue} Kč</td>
     `;
     
-    // Insert at the top of the table
     historyTableBody.insertBefore(row, historyTableBody.firstChild);
 }
+
+// Set initial active buttons
+document.querySelector('.game-button[data-game="hra"]').classList.add('active');
+document.querySelector('.trumf-button[data-trumf="cerveny"]').classList.add('active');
+document.querySelector('.forhont-button[data-player="0"]').classList.add('active');

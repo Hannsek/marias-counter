@@ -209,3 +209,35 @@ button:hover {
 .lose {
     color: #f44336;
 }
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.button-group button {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    color: #333;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.button-group button:hover {
+    background-color: #e8e8e8;
+}
+
+.button-group button.active {
+    background-color: #2196F3;
+    color: white;
+    border-color: #1976D2;
+}
+
+/* Hide trumf buttons for Betl and Durch */
+.hide-trumf .trumf-color {
+    display: none;
+}
