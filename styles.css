@@ -75,6 +75,11 @@ h1 {
     font-size: 2rem;
     font-weight: 700;
     color: var(--primary-color);
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.score.animate {
+    transform: scale(1.1);
 }
 
 /* Game controls */
@@ -107,7 +112,8 @@ h1 {
     color: var(--gray-800);
     border-radius: var(--radius-sm);
     font-weight: 500;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
+    transform: translateY(0);
 }
 
 .button-group button:hover {
@@ -119,6 +125,10 @@ h1 {
     background-color: var(--primary-color);
     color: white;
     border-color: var(--primary-dark);
+}
+
+.button-group button:active {
+    transform: translateY(2px);
 }
 
 /* Game result buttons */
@@ -150,6 +160,8 @@ h1 {
     font-weight: 500;
     font-size: 1rem;
     transition: background-color 0.2s;
+    transform: translateY(0);
+    transition: all 0.2s ease;
 }
 
 #win {
@@ -159,6 +171,13 @@ h1 {
 
 #win:hover {
     background-color: #16a34a;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+#win:active {
+    transform: translateY(0);
+    box-shadow: none;
 }
 
 #lose {
@@ -168,6 +187,13 @@ h1 {
 
 #lose:hover {
     background-color: #dc2626;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+#lose:active {
+    transform: translateY(0);
+    box-shadow: none;
 }
 
 /* History table */
@@ -222,6 +248,8 @@ h1 {
     font-size: 0.875rem;
     font-weight: 500;
     transition: background-color 0.2s;
+    transform: translateY(0);
+    transition: all 0.2s ease;
 }
 
 .reset-button {
@@ -231,6 +259,13 @@ h1 {
 
 .reset-button:hover {
     background-color: #ea580c;  /* Tailwind orange-600 */
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.reset-button:active {
+    transform: translateY(0);
+    box-shadow: none;
 }
 
 .reset-storage-button {
@@ -240,6 +275,13 @@ h1 {
 
 .reset-storage-button:hover {
     background-color: #374151;  /* Tailwind gray-700 */
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.reset-storage-button:active {
+    transform: translateY(0);
+    box-shadow: none;
 }
 
 /* Style for the icons */
@@ -288,6 +330,12 @@ h1 {
     line-height: 1.5;  /* Add this to match button text line height */
     display: inline-flex;  /* Add this */
     align-items: center;  /* Add this */
+    transition: all 0.2s ease;
+}
+
+.current-flek.animate {
+    transform: scale(1.1);
+    background-color: var(--gray-100);
 }
 
 /* Update fixed widths for history table columns */
@@ -318,4 +366,18 @@ h1 {
 /* Remove bottom border from sum row */
 #historySum td {
     border-bottom: none;
+}
+
+/* History row animation */
+.game-history tr {
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
