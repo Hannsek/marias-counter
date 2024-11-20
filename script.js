@@ -41,8 +41,42 @@ const flekButtons = {
 };
 const currentFlekDisplay = document.querySelector('.current-flek');
 const playerNames = document.querySelectorAll('.player-name');
+const resetButton = document.getElementById('resetScores');
 
+// Add reset functionality with confirmation
+let resetClickTimeout;
 
+function resetScores() {
+    // Reset all player scores
+    players.forEach(player => player.score = 0);
+    // Reset flek multiplier
+    currentFlekMultiplier = 1;
+    // Update displays
+    updateDisplay();
+    currentFlekDisplay.textContent = `Současný flek: ${currentFlekMultiplier}×`;
+    updateFlekButtons();
+    // Reset button state
+    resetButton.textContent = 'Vynulovat skóre';
+    resetButton.classList.remove('confirm');
+}
+
+resetButton.addEventListener('click', () => {
+    if (resetButton.classList.contains('confirm')) {
+        // Second click - perform reset
+        resetScores();
+        clearTimeout(resetClickTimeout);
+    } else {
+        // First click - ask for confirmation
+        resetButton.textContent = 'Opravdu vynulovat?';
+        resetButton.classList.add('confirm');
+        
+        // Reset button state after 3 seconds if not confirmed
+        resetClickTimeout = setTimeout(() => {
+            resetButton.textContent = 'Vynulovat skóre';
+            resetButton.classList.remove('confirm');
+        }, 3000);
+    }
+});
 
 // Calculate game value
 function calculateGameValue() {

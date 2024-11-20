@@ -157,3 +157,19 @@ button:hover {
     background-color: #fff;
     outline: 2px solid #2196F3;
 }
+
+.reset-controls {
+    margin-top: 15px;
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+}
+
+.reset-button {
+    background-color: #ff9800;  /* Orange color for warning */
+    color: white;
+}
+
+/* Optional: Add confirmation styling */
+.reset-button.confirm {
+    background-color: #f44336;  /* Red color when confirming */
+}
