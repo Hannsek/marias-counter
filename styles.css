@@ -121,25 +121,37 @@ button:hover {
     padding: 10px 0;
 }
 
-.flek-buttons {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+.flek-button {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    color: #333;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
-.flek-buttons button {
-    background-color: #2196F3;
-    color: white;
+.flek-button:hover {
+    background-color: #e8e8e8;
 }
 
-.flek-buttons button:disabled {
+.flek-button:disabled {
     background-color: #ccc;
+    color: #666;
     cursor: not-allowed;
+    border-color: #ccc;
 }
 
 .current-flek {
     margin-top: 10px;
-    font-weight: bold;
+    color: #333;
+}
+
+/* Optional: Add active state for flek buttons */
+.flek-button.active {
+    background-color: #2196F3;
+    color: white;
+    border-color: #1976D2;
 }
 
 .player-name {
@@ -240,4 +252,12 @@ button:hover {
 /* Hide trumf buttons for Betl and Durch */
 .hide-trumf .trumf-color {
     display: none;
+}
+
+.button-separator {
+    width: 1px;
+    height: 24px;  /* Adjust height as needed */
+    background-color: #ddd;
+    margin: 0 8px;  /* Add space around the line */
+    align-self: center;  /* Center vertically */
 }

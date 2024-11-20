@@ -150,6 +150,12 @@ function resetButtonsToDefault() {
     currentFlekMultiplier = 1;
     currentFlekDisplay.textContent = `Současný flek: ${currentFlekMultiplier}×`;
     updateFlekButtons();
+
+    // Reset flek button highlighting
+    Object.values(flekButtons).forEach(button => {
+        button.classList.remove('active');
+    });
+    flekButtons.reset.classList.add('active');
 }
 // Modify the updateScores function to reset buttons
 function updateScores(forhontWon) {
@@ -205,6 +211,12 @@ function updateFlekButtons() {
 flekButtons.reset.addEventListener('click', () => {
     currentFlekMultiplier = 1;
     currentFlekDisplay.textContent = `Současný flek: ${currentFlekMultiplier}×`;
+    // Remove active class from all flek buttons
+    Object.values(flekButtons).forEach(button => {
+        button.classList.remove('active');
+    });
+    // Add active class to reset button
+    flekButtons.reset.classList.add('active');
     updateFlekButtons();
 });
 
@@ -212,6 +224,12 @@ Object.entries(FLEK_MULTIPLIERS).forEach(([key, multiplier]) => {
     flekButtons[key].addEventListener('click', () => {
         currentFlekMultiplier = multiplier;
         currentFlekDisplay.textContent = `Současný flek: ${currentFlekMultiplier}×`;
+        // Remove active class from all flek buttons
+        Object.values(flekButtons).forEach(button => {
+            button.classList.remove('active');
+        });
+        // Add active class to clicked button
+        flekButtons[key].classList.add('active');
         updateFlekButtons();
     });
 });
