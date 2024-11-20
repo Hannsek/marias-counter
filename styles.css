@@ -157,3 +157,87 @@ button:hover {
     background-color: #fff;
     outline: 2px solid #2196F3;
 }
+
+.reset-controls {
+    margin-top: 15px;
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+}
+
+.reset-button {
+    background-color: #ff9800;  /* Orange color for warning */
+    color: white;
+}
+
+/* Optional: Add confirmation styling */
+.reset-button.confirm {
+    background-color: #f44336;  /* Red color when confirming */
+}
+
+.game-history {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.game-history table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.game-history th,
+.game-history td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.game-history th {
+    background-color: #f8f8f8;
+    font-weight: bold;
+}
+
+.game-history tr:hover {
+    background-color: #f5f5f5;
+}
+
+.win {
+    color: #4CAF50;
+}
+
+.lose {
+    color: #f44336;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.button-group button {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    color: #333;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.button-group button:hover {
+    background-color: #e8e8e8;
+}
+
+.button-group button.active {
+    background-color: #2196F3;
+    color: white;
+    border-color: #1976D2;
+}
+
+/* Hide trumf buttons for Betl and Durch */
+.hide-trumf .trumf-color {
+    display: none;
+}
