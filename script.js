@@ -42,6 +42,7 @@ const flekButtons = {
 const currentFlekDisplay = document.querySelector('.current-flek');
 const playerNames = document.querySelectorAll('.player-name');
 const resetButton = document.getElementById('resetScores');
+const historyTableBody = document.getElementById('historyTableBody');
 
 // Add reset functionality with confirmation
 let resetClickTimeout;
@@ -58,6 +59,9 @@ function resetScores() {
     // Reset button state
     resetButton.textContent = 'Vynulovat skóre';
     resetButton.classList.remove('confirm');
+    
+    // Clear history table
+    historyTableBody.innerHTML = '';
 }
 
 resetButton.addEventListener('click', () => {
@@ -95,6 +99,9 @@ function calculateGameValue() {
 function updateScores(forhontWon) {
     const gameValue = calculateGameValue();
     const forhontIndex = parseInt(forhontSelect.value);
+    
+    // Add game to history before updating scores
+    addGameToHistory(forhontWon);
     
     if (forhontWon) {
         // Forhont wins - others pay
@@ -211,3 +218,24 @@ playerNames.forEach(nameElement => {
 });
 
 document.addEventListener('DOMContentLoaded', loadPlayerNames);
+
+// Add this function to record games
+function addGameToHistory(isWin) {
+    const gameType = gameTypeSelect.value;
+    const trumfColor = trumfColorSelect.value;
+    const forhontName = forhontSelect.options[forhontSelect.selectedIndex].text;
+    const gameValue = calculateGameValue();
+    
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td>${gameTypeSelect.options[gameTypeSelect.selectedIndex].text}</td>
+        <td>${['betl', 'durch'].includes(gameType) ? '-' : trumfColorSelect.options[trumfColorSelect.selectedIndex].text}</td>
+        <td>${forhontName}</td>
+        <td>${currentFlekMultiplier}×</td>
+        <td class="${isWin ? 'win' : 'lose'}">${isWin ? 'Výhra' : 'Prohra'}</td>
+        <td>${gameValue} Kč</td>
+    `;
+    
+    // Insert at the top of the table
+    historyTableBody.insertBefore(row, historyTableBody.firstChild);
+}
