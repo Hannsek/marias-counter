@@ -131,15 +131,11 @@ forhontButtons.forEach(button => {
     });
 });
 
-// Calculate game value
+// Safer game value calculation
 function calculateGameValue() {
-    let value = GAME_VALUES[currentGame] * BASE_RATE;
-    
-    if (currentTrumf === 'cerveny') {
-        value *= 2;
-    }
-    
-    return value * currentFlekMultiplier;
+    const baseValue = GAME_VALUES[currentGame] || 0;
+    const trumfMultiplier = currentTrumf === 'cerveny' ? 2 : 1;
+    return baseValue * BASE_RATE * trumfMultiplier * currentFlekMultiplier;
 }
 
 // Define a function to reset buttons to default
@@ -395,5 +391,14 @@ function animateFlekMultiplier() {
     const flekElement = document.querySelector('.current-flek');
     flekElement.classList.add('animate');
     setTimeout(() => flekElement.classList.remove('animate'), 300);
+}
+
+// Safer service worker registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').catch(function(error) {
+            console.error('ServiceWorker registration failed:', error);
+        });
+    });
 }
 

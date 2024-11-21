@@ -12,395 +12,215 @@
     --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
     --radius-sm: 6px;
     --radius-md: 10px;
+    --safe-area-inset-top: env(safe-area-inset-top, 0px);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    background-color: var(--gray-100);
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    line-height: 1.6;
-    background-color: var(--gray-100);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.4;
     color: var(--gray-800);
 }
 
 .container {
-    width: 900px;
-    margin: 20px auto;
-    background-color: white;
-    padding: 32px;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-md);
+    height: 100vh;
+    height: -webkit-fill-available;
+    max-height: -webkit-fill-available;
+    display: flex;
+    flex-direction: column;
+    padding: calc(8px + var(--safe-area-inset-top)) 8px calc(8px + var(--safe-area-inset-bottom)) 8px;
+    gap: 4px;
+    background: white;
 }
 
+/* Header */
 h1 {
+    font-size: 1.125rem;
     text-align: center;
-    margin-bottom: 40px;
-    color: var(--gray-800);
-    font-size: 2.5rem;
-    font-weight: 700;
+    margin-bottom: 4px;
+    flex-shrink: 0;
 }
 
 /* Players section */
 .players {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-bottom: 40px;
+    gap: 8px;
+    margin-bottom: 4px;
+    flex-shrink: 0;
 }
 
 .player {
     background-color: var(--gray-100);
-    padding: 24px;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-    transition: transform 0.2s;
-}
-
-.player:hover {
-    transform: translateY(-2px);
+    padding: 6px 4px;
+    border-radius: var(--radius-sm);
+    text-align: center;
 }
 
 .player-name {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--gray-800);
-    margin-bottom: 12px;
+    font-size: 0.8rem;
+    margin-bottom: 2px;
+    line-height: 1.2;
 }
 
 .score {
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 1rem;
+    font-weight: 600;
     color: var(--primary-color);
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.score.animate {
-    transform: scale(1.1);
 }
 
 /* Game controls */
 .game-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
     background-color: var(--gray-100);
-    padding: 32px;
-    border-radius: var(--radius-md);
-    margin-bottom: 32px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
 }
 
 .game-controls h3 {
+    font-size: 0.7rem;
+    margin-bottom: 2px;
     color: var(--gray-600);
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 12px;
 }
 
 .button-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 24px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    margin-bottom: 8px;
 }
 
 .button-group button {
-    padding: 10px 20px;
+    padding: 6px 4px;
+    font-size: 0.75rem;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid var(--gray-300);
-    background-color: white;
-    color: var(--gray-800);
+    border-radius: var(--radius-sm);
+    background: white;
+}
+
+/* Result buttons */
+.game-result {
+    margin-top: 8px;
+}
+
+.result-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: auto;
+}
+
+#win, #lose {
+    padding: 12px;
+    border: none;
     border-radius: var(--radius-sm);
     font-weight: 500;
-    transition: all 0.2s ease;
-    transform: translateY(0);
+    font-size: 0.875rem;
+    color: white;
+    height: 44px;
 }
 
-.button-group button:hover {
-    background-color: var(--gray-200);
-    border-color: var(--gray-400);
+#win { background-color: var(--success-color); }
+#lose { background-color: var(--danger-color); }
+
+/* Reset controls */
+.reset-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 4px 0;
+    flex-shrink: 0;
+    margin-top: auto;
 }
 
+.reset-controls button {
+    height: 36px;
+    font-size: 0.75rem;
+}
+
+/* Game history */
+.game-history {
+    flex: 0 1 30vh;
+    min-height: 100px;
+    overflow-y: auto;
+    margin-top: 4px;
+    font-size: 0.7rem;
+    -webkit-overflow-scrolling: touch;
+}
+
+.game-history table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.game-history th,
+.game-history td {
+    padding: 4px 2px;
+    text-align: center;
+}
+
+/* Active states */
 .button-group button.active {
     background-color: var(--primary-color);
     color: white;
     border-color: var(--primary-dark);
 }
 
-.button-group button:active {
-    transform: translateY(2px);
+/* Animations */
+.score.animate {
+    animation: pulse 0.3s ease;
 }
 
-/* Game result buttons */
-.game-result {
-    margin-top: 32px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
 }
 
-.game-result h3 {
-    margin-bottom: 16px;
-    color: var(--gray-600);
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.result-buttons {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-}
-
-#win, #lose {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: background-color 0.2s;
-    transform: translateY(0);
-    transition: all 0.2s ease;
-}
-
-#win {
-    background-color: #22c55e;
-    color: white;
-}
-
-#win:hover {
-    background-color: #16a34a;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-}
-
-#win:active {
-    transform: translateY(0);
-    box-shadow: none;
-}
-
-#lose {
-    background-color: #ef4444;
-    color: white;
-}
-
-#lose:hover {
-    background-color: #dc2626;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-}
-
-#lose:active {
-    transform: translateY(0);
-    box-shadow: none;
-}
-
-/* History table */
-.game-history {
-    margin-top: 40px;
-    overflow-x: auto;
-}
-
-.game-history table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-}
-
-.game-history th {
-    background-color: var(--gray-100);
-    padding: 12px;
-    font-weight: 600;
-    text-align: center;
-    border-bottom: 2px solid var(--gray-300);
-}
-
-.game-history td {
-    padding: 12px;
-    border-bottom: 1px solid var(--gray-200);
-    text-align: center;
-}
-
-.game-history tr:hover td {
-    background-color: var(--gray-100);
-}
-
-/* Reset controls */
-.reset-controls {
-    margin-top: 32px;
-    margin-bottom: 32px;
-    padding-top: 24px;
-    padding-bottom: 24px;
-    border-top: 1px solid var(--gray-200);
-    border-bottom: 1px solid var(--gray-200);
-    display: flex;
-    justify-content: space-between;
-}
-
-.reset-button, .reset-storage-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: background-color 0.2s;
-    transform: translateY(0);
-    transition: all 0.2s ease;
-}
-
-.reset-button {
-    background-color: #f97316;  /* Tailwind orange-500 */
-    color: white;
-}
-
-.reset-button:hover {
-    background-color: #ea580c;  /* Tailwind orange-600 */
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-}
-
-.reset-button:active {
-    transform: translateY(0);
-    box-shadow: none;
-}
-
-.reset-storage-button {
-    background-color: #4b5563;  /* Tailwind gray-600 */
-    color: white;
-}
-
-.reset-storage-button:hover {
-    background-color: #374151;  /* Tailwind gray-700 */
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-}
-
-.reset-storage-button:active {
-    transform: translateY(0);
-    box-shadow: none;
-}
-
-/* Style for the icons */
-.icon {
-    font-size: 1rem;
-    line-height: 1;
-    display: inline-flex;
-    align-items: center;
-}
-
-/* Utilities */
-.win { color: var(--success-color); }
-.lose { color: var(--danger-color); }
-
-/* Keep the sum row's first cell right-aligned */
-#historySum td:first-child {
-    text-align: right;
-}
-
-/* Update flek display styles */
-.flek-display {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 24px;  /* Match spacing with other sections */
-}
-
-/* All h3 headers will now have consistent styling */
-.game-controls h3 {
-    color: var(--gray-600);
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 12px;
-}
-
-/* Update current-flek to exactly match button styles */
+/* Current flek display */
 .current-flek {
-    padding: 8px 20px;  /* Reduced from 10px to 8px vertical padding */
-    border: 1px solid var(--gray-300);
-    background-color: white;
-    color: var(--gray-800);
+    text-align: center;
+    padding: 8px;
+    background: white;
     border-radius: var(--radius-sm);
-    font-weight: 500;
     font-size: 0.875rem;
-    line-height: 1.5;  /* Add this to match button text line height */
-    display: inline-flex;  /* Add this */
-    align-items: center;  /* Add this */
-    transition: all 0.2s ease;
 }
 
-.current-flek.animate {
-    transform: scale(1.1);
-    background-color: var(--gray-100);
-}
-
-/* Update fixed widths for history table columns */
-.game-history th:nth-child(1) { width: 13%; }  /* Typ hry */
-.game-history th:nth-child(2) { width: 12%; }  /* Trumf */
-.game-history th:nth-child(3) { width: 10%; }  /* Forhont */
-.game-history th:nth-child(4) { width: 7%; }   /* Flek */
-.game-history th:nth-child(5) { width: 10%; }  /* Výsledek */
-.game-history th:nth-child(6) { width: 10%; }  /* Hodnota Hry */
-.game-history th:nth-child(7),
-.game-history th:nth-child(8),
-.game-history th:nth-child(9) { width: calc(40% / 3); }  /* Player columns */
-
-/* Add this to your CSS */
-.button-separator {
-    width: 1px;
-    background-color: var(--gray-300);
-    margin: 0 4px;  /* Add small margin on both sides */
-    align-self: stretch;  /* Make it full height */
-}
-
-/* Add vertical line before player columns in history table, excluding header and sum row */
-.game-history tbody tr:not(#historySum) td:nth-child(7) {
-    border-left: 2px solid var(--gray-300);
-    padding-left: 16px;
-}
-
-/* Remove bottom border from sum row */
-#historySum td {
-    border-bottom: none;
-}
-
-/* History row animation */
-.game-history tr {
-    opacity: 0;
-    transform: translateY(-10px);
-    animation: slideIn 0.3s ease forwards;
-}
-
-@keyframes slideIn {
-    to {
-        opacity: 1;
-        transform: translateY(0);
+/* Add/update these styles */
+@media screen and (orientation: landscape) {
+    html {
+        transform: rotate(-90deg);
+        transform-origin: left top;
+        width: 100vh;
+        height: 100vw;
+        position: absolute;
+        top: 100%;
+        left: 0;
     }
 }
 
-/* Add styles for disabled flek buttons */
-.button-group button:disabled:not(.active) {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background-color: var(--gray-100);
-    border-color: var(--gray-300);
-    transform: none;  /* Prevent hover animation */
-}
-
-.button-group button:disabled:not(.active):hover {
-    background-color: var(--gray-100);  /* Prevent hover effect */
-    transform: none;  /* Prevent hover animation */
-    border-color: var(--gray-300);
-}
-
-/* Keep active button style even when disabled */
-.button-group button:disabled.active {
-    opacity: 1;
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-dark);
+/* Special case for game type buttons - 3 columns */
+.game-type .button-group {
+    grid-template-columns: repeat(3, 1fr);
 }
