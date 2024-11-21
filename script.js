@@ -362,15 +362,15 @@ function addGameToHistory(isWin) {
     
     const row = document.createElement('tr');
     row.innerHTML = `
-        <td>${gameButton.textContent}</td>
-        <td>${['betl', 'durch'].includes(currentGame) ? '-' : trumfButton.textContent}</td>
-        <td>${forhontButton.textContent}</td>
-        <td>${currentFlekMultiplier}×</td>
-        <td class="${isWin ? 'win' : 'lose'}">${isWin ? 'Výhra' : 'Prohra'}</td>
-        <td>${gameValue} Kč</td>
-        <td class="${playerChanges[0] > 0 ? 'win' : 'lose'}">${playerChanges[0] > 0 ? '+' : ''}${playerChanges[0]}</td>
-        <td class="${playerChanges[1] > 0 ? 'win' : 'lose'}">${playerChanges[1] > 0 ? '+' : ''}${playerChanges[1]}</td>
-        <td class="${playerChanges[2] > 0 ? 'win' : 'lose'}">${playerChanges[2] > 0 ? '+' : ''}${playerChanges[2]}</td>
+        <td data-label="Typ hry">${gameButton.textContent}</td>
+        <td data-label="Trumf">${['betl', 'durch'].includes(currentGame) ? '-' : trumfButton.textContent}</td>
+        <td data-label="Forhont">${forhontButton.textContent}</td>
+        <td data-label="Flek">${currentFlekMultiplier}×</td>
+        <td data-label="Výsledek" class="${isWin ? 'win' : 'lose'}">${isWin ? 'Výhra' : 'Prohra'}</td>
+        <td data-label="Hodnota Hry">${gameValue} Kč</td>
+        <td data-label="Hráč 1" class="${playerChanges[0] > 0 ? 'win' : 'lose'}">${playerChanges[0] > 0 ? '+' : ''}${playerChanges[0]}</td>
+        <td data-label="Hráč 2" class="${playerChanges[1] > 0 ? 'win' : 'lose'}">${playerChanges[1] > 0 ? '+' : ''}${playerChanges[1]}</td>
+        <td data-label="Hráč 3" class="${playerChanges[2] > 0 ? 'win' : 'lose'}">${playerChanges[2] > 0 ? '+' : ''}${playerChanges[2]}</td>
     `;
     
     historyTableBody.insertBefore(row, historyTableBody.firstChild);
@@ -397,3 +397,15 @@ function animateFlekMultiplier() {
     setTimeout(() => flekElement.classList.remove('animate'), 300);
 }
 
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('ServiceWorker registered successfully');
+      })
+      .catch(error => {
+        console.error('ServiceWorker registration failed:', error);
+      });
+  });
+}

@@ -1,0 +1,38 @@
+{
+  "name": "Mariášnické počítadlo",
+  "short_name": "Mariáš",
+  "description": "Počítadlo pro karetní hru Mariáš",
+  "start_url": "./",
+  "id": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "orientation": "portrait",
+  "screenshots": [
+    {
+      "src": "./screenshots/desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Desktop view of Mariáš"
+    },
+    {
+      "src": "./screenshots/mobile.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "label": "Mobile view of Mariáš"
+    }
+  ],
+  "icons": [
+    {
+      "src": "./icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+} 

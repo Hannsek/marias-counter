@@ -404,3 +404,587 @@ h1 {
     color: white;
     border-color: var(--primary-dark);
 }
+
+/* Make players section responsive */
+@media (max-width: 768px) {
+    .players {
+        grid-template-columns: 1fr;  /* Stack players vertically on mobile */
+        gap: 16px;
+    }
+
+    /* Adjust game controls padding */
+    .game-controls {
+        padding: 16px;
+    }
+
+    /* Make button groups scroll horizontally on mobile */
+    .button-group {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 8px;  /* Space for the scrollbar */
+    }
+
+    .button-group::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .button-group::-webkit-scrollbar-thumb {
+        background-color: var(--gray-300);
+        border-radius: 4px;
+    }
+
+    /* Adjust button sizes */
+    .button-group button {
+        padding: 8px 16px;
+        font-size: 0.875rem;
+    }
+
+    /* Make history table scrollable */
+    .game-history {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .game-history table {
+        font-size: 0.875rem;
+    }
+
+    .game-history th,
+    .game-history td {
+        padding: 8px;
+        min-width: 80px;  /* Ensure minimum touch target size */
+    }
+
+    /* Adjust reset controls for mobile */
+    .reset-controls {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .reset-button,
+    .reset-storage-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Optimize player cards for mobile */
+    .player {
+        padding: 16px;  /* Reduce padding */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .player-name {
+        font-size: 1.125rem;  /* Slightly smaller font */
+        margin-bottom: 0;     /* Remove bottom margin due to flex layout */
+    }
+
+    .score {
+        font-size: 1.5rem;    /* Slightly smaller score size */
+    }
+
+    /* Optimize game controls spacing */
+    .game-controls > div:not(:last-child) {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--gray-200);  /* Visual separator */
+    }
+
+    /* Make buttons more touch-friendly */
+    .button-group {
+        gap: 6px;  /* Slightly reduce gap for more buttons per view */
+        padding: 4px;  /* Add padding for better scroll appearance */
+        margin: -4px;  /* Compensate for padding */
+    }
+
+    /* Custom scrollbar for button groups */
+    .button-group::-webkit-scrollbar {
+        height: 2px;  /* Thinner scrollbar */
+    }
+
+    /* Add scroll indicators */
+    .button-group {
+        position: relative;
+        mask-image: linear-gradient(
+            to right,
+            transparent,
+            black 10px,
+            black calc(100% - 10px),
+            transparent
+        );
+    }
+
+    /* Optimize Win/Lose buttons */
+    .result-buttons {
+        width: 100%;
+        gap: 12px;
+    }
+
+    #win, #lose {
+        flex: 1;  /* Make buttons fill available space */
+        min-height: 48px;  /* Larger touch target */
+    }
+
+    /* Optimize history table */
+    .game-history {
+        margin-top: 24px;
+        background: linear-gradient(to right, white 30%, transparent),
+                    linear-gradient(to left, white 30%, transparent) 100% 0;
+        background-size: 20px 100%;
+        background-repeat: no-repeat;
+    }
+
+    .game-history table {
+        font-size: 0.75rem;  /* Smaller font for mobile */
+    }
+
+    .game-history th {
+        position: sticky;
+        top: 0;
+        background: var(--gray-100);
+        z-index: 1;
+    }
+
+    /* Add pull-to-refresh spacing */
+    body {
+        min-height: 100vh;
+        overscroll-behavior-y: contain;
+    }
+
+    /* Improve text selection */
+    .player-name {
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+    }
+    
+    .player-name:focus {
+        outline: 2px solid var(--primary-color);
+        border-radius: 4px;
+    }
+}
+
+/* Add specific iPad/tablet optimizations */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .container {
+        width: 95%;
+        max-width: none;
+    }
+
+    .button-group {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+/* Add landscape mode optimizations */
+@media (max-width: 768px) and (orientation: landscape) {
+    .container {
+        margin: 10px auto;
+    }
+
+    .players {
+        grid-template-columns: repeat(3, 1fr);  /* Keep players in row for landscape */
+        gap: 12px;
+    }
+
+    .game-controls {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+}
+
+/* Add dark mode support for OLED screens */
+@media (prefers-color-scheme: dark) and (max-width: 768px) {
+    body {
+        background-color: black;
+    }
+}
+
+/* iPhone-specific optimizations */
+@supports (-webkit-touch-callout: none) {
+    /* iOS-specific styles */
+    .container {
+        padding-bottom: env(safe-area-inset-bottom);  /* Handle iPhone notch */
+        padding-top: env(safe-area-inset-top);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+
+    /* Prevent rubber-band scroll effect */
+    body {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Better button feedback on iOS */
+    button {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+}
+
+/* Alternative layout for game controls on mobile */
+@media (max-width: 768px) {
+    /* Stack game controls vertically with cards */
+    .game-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .game-type, .trumf-color, .players-selection, .flek-controls {
+        background: white;
+        border-radius: var(--radius-sm);
+        padding: 16px;
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* Compact layout for flek controls */
+    .flek-controls {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .current-flek {
+        justify-self: end;
+    }
+
+    /* Alternative history table layout for mobile */
+    .game-history {
+        overflow: hidden;  /* Hide horizontal scroll */
+    }
+
+    .game-history table {
+        display: block;  /* Enable vertical scrolling */
+    }
+
+    .game-history tbody tr {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        padding: 12px;
+        border-bottom: 1px solid var(--gray-200);
+    }
+
+    .game-history td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        display: block;
+        font-size: 0.75rem;
+        color: var(--gray-600);
+    }
+}
+
+/* Safari-specific fixes */
+@supports (-webkit-touch-callout: none) and (not (translate: none)) {
+    /* Older Safari versions */
+    .button-group {
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+    }
+
+    .button-group button {
+        scroll-snap-align: start;
+    }
+}
+
+/* Chrome for Android optimizations */
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+    .button-group {
+        scroll-padding: 0 16px;
+    }
+}
+
+/* Alternative layout for landscape mode */
+@media (max-width: 768px) and (orientation: landscape) {
+    .container {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 16px;
+        height: 100vh;
+        margin: 0;
+        padding: 16px;
+    }
+
+    .players {
+        grid-column: 1;
+    }
+
+    .game-controls {
+        grid-column: 2;
+        overflow-y: auto;
+    }
+}
+
+/* Firefox for Android specific fixes */
+@-moz-document url-prefix() {
+    @media (max-width: 768px) {
+        .button-group {
+            scrollbar-width: thin;
+            scrollbar-color: var(--gray-300) transparent;
+        }
+    }
+}
+
+/* Add to your existing styles */
+[hidden] {
+    display: none !important;
+}
+
+.trumf-color.hidden {
+    display: none;
+}
+
+/* Make sure all styles are in this file, not inline in HTML */
+
+/* Mobile-specific styles for game history */
+@media (max-width: 768px) {
+    .game-history {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 20px 0;
+    }
+
+    .game-history table {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    /* Stack the table content vertically */
+    .game-history table, 
+    .game-history thead, 
+    .game-history tbody, 
+    .game-history tr, 
+    .game-history th, 
+    .game-history td {
+        display: block;
+    }
+
+    .game-history thead {
+        display: none; /* Hide the header on mobile */
+    }
+
+    .game-history tbody tr {
+        margin-bottom: 16px;
+        padding: 12px;
+        background: var(--gray-100);
+        border-radius: var(--radius-sm);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .game-history td {
+        padding: 8px 4px;
+        border-bottom: 1px solid var(--gray-200);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .game-history td:last-child {
+        border-bottom: none;
+    }
+
+    /* Add labels for each cell */
+    .game-history td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        padding-right: 12px;
+        color: var(--gray-600);
+    }
+
+    /* Style for win/lose cells */
+    .game-history td.win,
+    .game-history td.lose {
+        color: inherit;
+    }
+
+    .game-history td.win::after {
+        content: "✓";
+        color: var(--success-color);
+        margin-left: 8px;
+    }
+
+    .game-history td.lose::after {
+        content: "×";
+        color: var(--danger-color);
+        margin-left: 8px;
+    }
+}
+
+/* Base container adjustments */
+.vertical-center {
+    min-height: 100vh;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+.container {
+    margin: 10px auto;
+    padding: 16px;
+    max-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    /* Compact header */
+    h1 {
+        font-size: 1.25rem;
+        margin-bottom: 8px;
+        line-height: 1.2;
+    }
+
+    /* Ultra compact player section */
+    .players {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px;
+        margin-bottom: 8px;
+    }
+
+    .player {
+        padding: 6px 4px;
+    }
+
+    .player-name {
+        font-size: 0.875rem;
+        margin-bottom: 4px;
+        line-height: 1.2;
+    }
+
+    .score {
+        font-size: 1.125rem;
+        line-height: 1;
+    }
+
+    /* Compact game controls */
+    .game-controls {
+        padding: 8px;
+        margin-bottom: 8px;
+    }
+
+    .game-controls h3 {
+        font-size: 0.75rem;
+        margin-bottom: 4px;
+        line-height: 1;
+    }
+
+    .button-group {
+        gap: 4px;
+        margin-bottom: 8px;
+    }
+
+    .button-group button {
+        padding: 6px 8px;
+        font-size: 0.75rem;
+        min-height: 32px;
+        line-height: 1;
+    }
+
+    /* Compact result buttons */
+    .game-result {
+        margin-bottom: 8px;
+    }
+
+    .result-buttons {
+        gap: 4px;
+    }
+
+    .result-buttons button {
+        padding: 6px 12px;
+        font-size: 0.875rem;
+        min-height: 36px;
+    }
+
+    /* Compact reset controls */
+    .reset-controls {
+        margin-top: 8px;
+        padding: 4px;
+        display: flex;
+        gap: 8px;
+    }
+
+    .reset-controls button {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        flex: 1;
+    }
+
+    /* Make history section take remaining space */
+    .game-history {
+        flex: 1;
+        overflow-y: auto;
+        margin-top: 8px;
+        font-size: 0.75rem;
+    }
+
+    .game-history h3 {
+        font-size: 0.75rem;
+        margin-bottom: 4px;
+    }
+
+    .game-history tbody tr {
+        margin-bottom: 4px;
+        padding: 4px;
+    }
+
+    .game-history td {
+        padding: 4px;
+        font-size: 0.75rem;
+    }
+
+    /* Container adjustments */
+    .container {
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        gap: 4px;
+    }
+
+    /* Adjust button groups for game types */
+    .game-type .button-group,
+    .trumf-color .button-group,
+    .players-selection .button-group,
+    .flek-controls .button-group {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+        gap: 4px;
+    }
+
+    /* Make flek controls more compact */
+    .flek-controls h3 {
+        margin-top: 4px;
+    }
+
+    .current-flek {
+        font-size: 0.875rem;
+        padding: 4px 8px;
+    }
+}
+
+/* iPhone-specific adjustments */
+@supports (-webkit-touch-callout: none) {
+    .container {
+        padding-top: max(8px, env(safe-area-inset-top));
+        padding-bottom: max(8px, env(safe-area-inset-bottom));
+    }
+}
+
+/* Prevent bounce scroll */
+html, body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
